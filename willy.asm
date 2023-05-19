@@ -206,17 +206,28 @@ end_collide_left_right
     rts
 
 Collide
+
+	; reset sound effect
+	lda #0
+	sta $900c
+	lda on_ground
+	bne +
+	lda inairtime
+	lsr
+	tax
+	lda jumpnotes,x
+	sta $900c
++
+
     lda on_ground
     sta was_on_ground
-    lda inairtime
-    cmp #51
-    beq +
     inc inairtime
-    bne ++
-+
+    lda inairtime
+    cmp #52
+    bne +
     lda #0
     sta xadd
-++
++
     lda #0
     sta on_ground
     sta mov
@@ -229,7 +240,12 @@ Collide
     lda py
     and #$f8
     sta tmp
-    ldx inairtime
+	lda inairtime
+	cmp #51
+	bcc +
+	lda #51
++
+    tax
     lda jumptab,x
     clc
     adc py
@@ -295,8 +311,8 @@ look_below_2
     jsr try_touch_below
     beq move_up_down
 check_jump
-    ldx #1
-    stx on_ground
+    lda #1
+    sta on_ground
     lda #27
     sta inairtime
     lda jumpIsPressed
@@ -324,6 +340,7 @@ hit_above
     sta newy
     jmp move_up_down
 hit_below
+	jsr CheckDeathFall
     lda #27
     sta inairtime
     lda newy
@@ -331,9 +348,23 @@ hit_below
     sta newy
     jmp move_up_down
 
+CheckDeathFall
+	lda inairtime
+	cmp #70
+	bcc +
+	lda #1
+	sta dead
++
+	rts
+
 jumptab ; 54 bytes
 !byte -2, -1, -2, -1, -2, -1, -1, -1, -2, -1, -1, 0, -1, -1, -1, 0, -1, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0
 !byte 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2
+
+jumpnotes ; 27 bytes
+!byte 150,155,160,165,170,175,180,185,190
+!byte 195,200,205,210,215,210,205,200,195
+!byte 190,185,180,175,170,165,160,155,150
 
 ErasePlayer
     ldx px
@@ -510,6 +541,8 @@ try_killed
 	beq kill_player
 	cmp #PLATFORM2
 	beq dont_kill_player
+	cmp #SOLID_CHR
+	beq dont_kill_player
 	cmp #GUARDIAN_CHR
 	bcs kill_player
 	rts
@@ -528,10 +561,14 @@ DeathFlash
 -
 	lda #BLUE
 	jsr ColFlash
+	lda #240
+	sta $900c
 	jsr WaitForRaster
 	jsr WaitForRaster
 	lda #WHITE
 	jsr ColFlash
+	lda #0
+	sta $900c
 	jsr WaitForRaster
 	jsr WaitForRaster
 	dey

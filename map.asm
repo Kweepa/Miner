@@ -1,5 +1,5 @@
 ResetGame
-    lda #18
+    lda #0
     sta map
 
 	lda #0
@@ -307,6 +307,10 @@ map_draw_done
 	jsr CopyDownVerticalGuardianBmp
 
     jsr DrawPlayer
+
+	jsr ResetLightBeam
+
+	jsr DrawFinalBackground
 
 ; uncomment this to test the map drawing without continuing
 ;-	jmp -

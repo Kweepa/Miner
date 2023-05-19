@@ -11,8 +11,8 @@
 
 !source "map.asm"
 
-*=$1d00
-
+*=$1800 + 96*8
+!source "happybackground.asm"
 !source "font.asm"
 
 !source "guardians.asm"
@@ -27,6 +27,7 @@
 !source "spritedata.asm"
 !source "graphicdata.asm"
 !source "boot.asm"
+!source "lightbeam.asm"
 
 !if 0 {
 

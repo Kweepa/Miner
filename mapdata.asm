@@ -215,7 +215,7 @@ map4
     !word 22*9+12+(7<<9)
 
     !byte PLATFORM,CYAN,9
-    !word 22*6+(9<<9), 22*6+16+(2<<9), 22*7+20+(1<<9), 22*10+2+(7<<9), 22*12+1+(8<<9), 22*12+12+(4<<9)
+    !word 22*6+(9<<9), 22*6+16+(2<<9), 22*7+20+(1<<9), 22*10+2+(7<<9), 22*12+1+(8<<9), 22*12+12+(5<<9)
 	!word 22*12+21, 22*14, 22*16+(21<<9)
     
     !byte BLOCK,GREEN,3+128
@@ -243,14 +243,14 @@ map4
     !byte 3
     !byte 27,32,0,27,-1,YELLOW,0
     !byte 8,64,8,27,1,BLACK,0
-	!byte 40,8,8,96,1,WHITE,16
+	!byte 40,8,8,96,1,WHITE,GUARDIAN_EUGENE
 
 ; bg colour, player xy, belt speed
     !byte 46, 0, 32, -1
 ; guardian indices
 	!byte 4, 27
 		
-    !text "Eugene`s Lair", 0
+    !text "Eugene's Lair", 0
 
 map5
 	!byte 6
@@ -346,7 +346,7 @@ map6
 	!byte 48,112,48,83,1,YELLOW,0
 
 	; bg color, playerxy, belt speed
-	!byte 10,4,112,1
+	!byte 13,4,112,1
 
 	; guardian indices
 	!byte 6,0
@@ -444,7 +444,7 @@ map8
 	!byte 72,16,16,104,1,RED,17
 
 ; bg colour, player xy, belt speed
-    !byte 10, 0, 112, 1
+    !byte 14, 0, 112, 1
 ; guardian indices
 	!byte 10, 9
 		
@@ -662,7 +662,7 @@ map12
 	!byte 12,16,16,96,2,WHITE,17
 
 	; bg color, player xy, belt speed
-	!byte 10, 76, 112, -1
+	!byte 14, 76, 112, -1
 
 	; guardian indices
 	!byte 15, 14
@@ -707,7 +707,7 @@ map13
 	!byte 72,8,8,40,2,YELLOW,GUARDIAN_SKYLAB
 
 	; bg color, player xy, belt speed
-	!byte 106, 76, 112, -1
+	!byte 111, 76, 112, -1
 
 	; guardian indices
 	!byte 17,16
@@ -917,7 +917,7 @@ map17
 	!byte 72,16,16,104,1,YELLOW,GUARDIAN_VERTICAL
 
 ; bg colour, player xy, belt speed
-    !byte 10, 80, 112, -1
+    !byte 14, 80, 112, -1
 ; guardian indices
 	!byte 10, 23
 
@@ -954,19 +954,95 @@ map18
 
 ; num guardians
     !byte 6
-    !byte 17*4,4*8,16*4,20*4,1,YELLOW,GUARDIAN_HORIZONTAL
-    !byte 19*4,7*8,15*4,20*4,1,BLUE,GUARDIAN_HORIZONTAL
-	!byte 10*4,14*8,2*4,20*4,1,RED,GUARDIAN_HORIZONTAL
-	!byte 2*4,72,8,112,4,YELLOW,GUARDIAN_VERTICAL
+    !byte 17*4,4*8,16*4,20*4+3,1,PURPLE,GUARDIAN_UNIDIRECTIONALHORIZONTAL
+    !byte 19*4,7*8,16*4,20*4,1,BLUE,GUARDIAN_UNIDIRECTIONALHORIZONTAL
+	!byte 10*4,14*8,4*4,20*4+3,1,RED,GUARDIAN_UNIDIRECTIONALHORIZONTAL
+	!byte 2*4,72,8,112,4,PURPLE,GUARDIAN_VERTICAL
 	!byte 6*4,64,56,112,-2,RED,GUARDIAN_VERTICAL
 	!byte 10*4,88,12,88,-1,BLUE,GUARDIAN_VERTICAL
 
 ; bg colour, player xy, belt speed
-    !byte 90, 8*4, 11*8, 1
+    !byte 92, 8*4+2, 11*8, 1
 ; guardian indices
 	!byte 25, 24
 
 	!text "Solar Power Generator", 0	
 
 map19
+	!byte 7
+
+	!byte BLOCK,GREEN,4
+	!word 22*4+12+(9<<9), 22*5+(21<<9), 22*6+(11<<9), 22*7+(11<<9)
 	
+	!byte BLOCK,GREEN,2+128
+	!word 22*4+14+(3<<9), 22*4+11+(2<<9)
+
+	!byte KEY,RED,5
+	!word 22*6+16, 22*7+21, 22*12+5, 22*12+9, 22*12+13
+
+	!byte BELT,CYAN,1
+	!word 22*11+(15<<9)
+
+	!byte PLATFORM,RED,5
+	!word 22*16+(21<<9), 22*14+2, 22*13, 22*12+20, 22*9+21
+
+	!byte CRUMBLE,RED,1
+	!word 22*11+18
+
+	!byte BUSH,GREEN,4
+	!word 22*12+4, 22*12+7, 22*12+11, 22*12+15
+	
+	; exit col, x, y
+	!byte PURPLE,12,6
+
+	; exit graphic data
+	!byte 0,0,7,224,24,24,35,196
+	!byte 68,34,72,18,72,18,72,18
+	!byte 68,34,34,68,26,88,74,82
+	!byte 122,94,66,66,126,126,0,0
+
+	; block indices: key, stal, bush, web, belt, platform, block, crumble, switch, block2, platform2
+	!byte 48,0,7,0,12,33,39,26,0,0,0
+
+; num guardians
+    !byte 2
+    !byte 3*4,14*8,3*4,20*4+3,1,YELLOW,GUARDIAN_HORIZONTAL
+	!byte 16*4,56,48,111,1,WHITE,GUARDIAN_VERTICAL
+
+; bg colour, player xy, belt speed
+    !byte 10, 20*4, 14*8, 1
+; guardian indices
+	!byte 26, 14
+
+	!text "The Final Barrier", 0
+
+DrawFinalBackground
+	lda map
+	cmp #19
+	beq +
+	rts
++
+	ldx #(22*5-1)
+-
+	lda happy_chars,x
+	clc
+	adc #96
+	sta screen_base,x
+	lda happy_cols,x
+	sta color_base,x
+	dex
+	bpl -
+	rts
+
+happy_chars	
+	!byte 0,1,2,3,4,4,4,4,4,5,6,7,4,4,8,1,1,9,4,4,4,4
+	!byte 10,1,11,12,13,14,15,16,17,18,19,20,21,4,1,22,22,1,4,4,23,24
+	!byte 25,26,27,1,28,29,30,31,1,32,4,4,33,33,1,22,22,1,34,34,35,36
+	!byte 37,4,38,39,40,41,42,43,44,45,4,4,46,46,1,1,1,1,47,47,48,49
+	!byte 50,51,52,53,54,1,1,55,56,57,58,59,1,1,1,1,1,1,1,1,1,1
+happy_cols
+	!byte 5,5,5,5,1,1,1,1,1,1,1,1,1,1,7,7,7,7,1,1,1,1
+	!byte 2,5,5,7,7,7,7,7,7,1,1,1,1,1,1,0,0,1,1,1,2,2
+	!byte 2,2,7,7,7,7,7,7,7,7,1,1,7,4,1,0,0,1,1,1,2,2
+	!byte 2,2,7,7,7,7,7,7,7,7,1,1,5,5,1,1,1,1,1,1,0,2
+	!byte 2,5,7,7,7,7,7,7,7,7,5,5,5,5,5,5,5,5,5,5,5,5

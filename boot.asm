@@ -82,11 +82,16 @@ BootSquash
 	inx
 	stx screen_base + 22*14 + 11
 
+	lda #240
+	sta $900b
+
 	; make the boot descend
 descend
 	lda #0
 	sta booty
 -
+	dec $900b
+
 	lda booty
 	clc
 	adc #2
@@ -135,6 +140,9 @@ descend
 	lda booty
 	cmp #(13*8)
 	bne -
+
+	lda #0
+	sta $900b
 
 	ldx #5
 	ldy #9

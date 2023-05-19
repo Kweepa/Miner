@@ -43,6 +43,8 @@ exit_col		= $30
 
 arr3			= $31 ; (2 bytes)
 
+totalinairtime  = $33
+
 rasterline      = $36
 stickleft       = $37
 stickright      = $38
@@ -107,3 +109,7 @@ kong_dead       = $f3
 skylab_frame    = $f4 ; (3 bytes)
 vguard_frame    = $f7
 hguard_frame	= $f8
+
+beamx			= $f9
+beamy			= $fa
+beamd			= $fb

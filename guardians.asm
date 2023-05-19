@@ -444,6 +444,8 @@ MoveGuardians
     jsr CopyDownGuardianData
 	lda ht
 	beq MoveBidirectionalHorizontalGuardian
+	cmp #GUARDIAN_UNIDIRECTIONALHORIZONTAL
+	beq MoveUnidirectionalHorizontalGuardian
 	cmp #GUARDIAN_EUGENE
 	beq MoveEugene
 	cmp #GUARDIAN_VERTICAL
@@ -473,15 +475,25 @@ MoveBidirectionalHorizontalGuardian
 	jsr MoveHorizontalGuardian
     jsr GetHorizontalGuardianBmpAddr
 	jsr AddBidirectionalGuardianBmpAddr
+ContinueMoveHorizontalGuardian
 	jsr CalcGuardianUDGAddr
     jsr CopyHorizontalGuardianFrame
 +
+EndMoveHorizontalGuardian
 	jsr DrawHorizontalGuardian
 	jmp EndGuardianLoop
+
+MoveUnidirectionalHorizontalGuardian
+	jsr ShouldMoveHorizontalGuardianThisFrame
+	bne EndMoveHorizontalGuardian
+	jsr MoveHorizontalGuardian
+    jsr GetHorizontalGuardianBmpAddr
+	jmp ContinueMoveHorizontalGuardian
 
 MoveEugene
 	jsr ShouldMoveVerticalGuardianThisFrame
 	bne +++
+	jsr UpdateEugene
 	jsr CalcGuardianUDGAddr
 	jsr CopyVerticalGuardianFrame
 +++

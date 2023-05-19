@@ -17,7 +17,7 @@ WaitForRasterLineLessThan
     lda $9004
     and #$fe
     cmp #RASTERLINE_PAL ; rasterline
-    bpl WaitForRasterLineLessThan
+    bcs WaitForRasterLineLessThan
     rts
 
 WaitForRaster
@@ -238,13 +238,130 @@ do_update_hi
 	jmp DisplayHi
 
 RunOutAir
+	jsr InitMusic
 	ldx air
 	beq +
 -	jsr Add10ToScore
 	dec air
+	lda air
+	lsr
+	clc
+	adc #127
+	sta $900b
 	jsr DrawAir
 	jsr WaitForRaster
-	dex
+	lda air
 	bpl -
 +
+	rts
+
+AddExtraMan
+	lda map
+	cmp #5
+	beq ++
+	cmp #10
+	beq ++
+	cmp #15
+	beq ++
+	cmp #20
+	beq +
+	rts
++
+	jsr EndGame
+++
+	inc men
+	rts
+
+EndGame
+	; move the player to the upper section
+	jsr ErasePlayer
+	lda #(12*4+2)
+	sta px
+	lda #(2*8)
+	sta py
+
+	; clear the spot for the player
+	lda #1
+	sta color_base+22*2+12
+	sta color_base+22*2+13
+	sta color_base+22*3+12
+	sta color_base+22*3+13
+	lda #0
+	sta screen_base+22*2+12
+	sta screen_base+22*2+13
+	sta screen_base+22*3+12
+	sta screen_base+22*3+13
+
+	jsr DrawPlayer
+
+	; draw sword and fish
+	lda #156
+	sta screen_base+22*5+12
+	lda #157
+	sta screen_base+22*5+13
+	lda #158
+	sta screen_base+22*6+12
+	lda #159
+	sta screen_base+22*6+13
+	lda #CYAN
+	sta color_base+22*5+12
+	sta color_base+22*5+13
+	lda #YELLOW
+	sta color_base+22*6+12
+	lda #WHITE
+	sta color_base+22*6+13
+
+	jsr InitMusic
+
+	dec map
+
+	; make success noise
+	ldx #11
+--
+	ldy #144
+-
+	sty $900b
+	jsr FinalBarrierUpperSettings
+	jsr FinalBarrierLowerSettings
+	jsr WaitForRasterLine
+	jsr WaitForRasterLineLessThan
+	iny
+	cpy #168
+	bne -
+	dex
+	bne --
+
+	lda #0
+	sta map
+
+	rts
+
+FinalBarrierUpperSettings
+	lda map
+	cmp #19
+	bne +
+	lda #58
+	sta $900f
++
+	rts
+
+FinalBarrierLowerSettings
+	lda map
+	cmp #19
+	bne +
+
+-
+	lda $9004
+    and #$fe
+    cmp #57 ; rasterline
+    bcs -
+-
+	lda $9004
+    and #$fe
+    cmp #57 ; rasterline
+    bcc -
+	lda #10
+	sta $900f
++
+
 	rts

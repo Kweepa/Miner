@@ -23,8 +23,9 @@ main_loop
     jsr MoveGuardians
     jsr Collide
     jsr DrawExit
-	lda #11
-	;sta 36879
+	jsr DrawLightBeam
+
+	jsr FinalBarrierUpperSettings
 
 	; things that don't need to be done in the border
     jsr AnimateBelts
@@ -33,22 +34,26 @@ main_loop
     jsr GetPlayerInput
 	jsr UpdateAir
 
+	jsr FinalBarrierLowerSettings
+
     jsr WaitForRasterLineLessThan
     jsr WaitForRasterLine     ; bottom of graphics part of screen
-	lda #10
-	;sta 36879
     lda dead
     beq +
 	jsr InitMusic
 	jsr DeathFlash
+	; inc men ; trainer
+	nop
+	nop
     dec men
     beq ++
     bne continue_map
 +
     lda hit_exit
     beq main_loop
-	jsr RunOutAir
     inc map
+	jsr AddExtraMan
+	jsr RunOutAir
     bne start_map
 
 ++

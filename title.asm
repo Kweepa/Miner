@@ -80,9 +80,9 @@ TitleScreen
 
 	; output the logo
 
-	ldx #(22*6-1)
--	lda logo,x
-	sta screen_base + 22*6,x
+	ldx #(22*6)
+-	lda logo-1,x
+	sta screen_base + 22*6-1,x
 	dex
 	bne -
 
