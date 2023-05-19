@@ -110,6 +110,8 @@ GetPlayerInput
     sta jumpIsPressed
     lda on_ground
     beq player_input_done
+	lda xadd
+	bne player_input_try_jump
         ; left
     ldx #$bf        ; QET...
     ldy #$ff

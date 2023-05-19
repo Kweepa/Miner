@@ -400,7 +400,7 @@ map7
 	!byte 40,8,40,40,0,GREEN,18
 
 	; bg color, player xy, belt speed
-	!byte 10, 4, 112, 1
+	!byte 10, 4, 112, -1
 
 	; guardian indices
 	!byte 8, 7
@@ -439,8 +439,8 @@ map8
     !byte 32,32,32,51,1,GREEN,0
     !byte 44,88,32,51,1,CYAN,0
 	!byte 8,16,16,104,1,PURPLE,17
-	!byte 24,16,16,104,2,GREEN,17
-	!byte 56,16,16,104,2,CYAN,17
+	!byte 24,16,8,104,2,GREEN,17
+	!byte 56,16,8,104,2,CYAN,17
 	!byte 72,16,16,104,1,RED,17
 
 ; bg colour, player xy, belt speed

@@ -127,7 +127,7 @@ UpdateMoveCounters
 +
     dec crumble_ctr
     bpl +
-    lda #6
+    lda #4
     sta crumble_ctr
 +
 	dec up_down_ctr

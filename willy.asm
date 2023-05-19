@@ -117,6 +117,7 @@ do_block_below
     bne +
     lda belt_spd
     sta xadd
+	sta lastxmove
     bne ++
 +
     lda #0
@@ -366,10 +367,45 @@ jumpnotes ; 27 bytes
 !byte 195,200,205,210,215,210,205,200,195
 !byte 190,185,180,175,170,165,160,155,150
 
+TryTouchLightBeam
+	lda frame_ctr
+	and #15
+	beq +
+	rts
+	ldx #3
+	lda py
+	and #7
+	beq +
+	ldx #5
++
+-
+	ldy erase_scr_off,x
+	lda (map_ptr),y
+	and #7
+	cmp #YELLOW
+	beq touched_light_beam
+	dex
+	bpl -
+	rts
+touched_light_beam
+	dec air
+	jsr DrawAir
+	lda air
+	bne +
+	lda #1
+	sta dead
++
+	rts
+
 ErasePlayer
     ldx px
     ldy py
     jsr ConvertXYToScreenAddr
+	lda map
+	cmp #18
+	bne +
+	jsr TryTouchLightBeam
++
 	ldx #5
 -
 	ldy erase_scr_off,x
