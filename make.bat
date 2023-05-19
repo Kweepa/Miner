@@ -1,3 +1,4 @@
 @echo off
-\app\acme\acme -o miner.a0 --vicelabels miner.lbl miner.asm
-call \app\WinVice-3.1-x64\xvic -pal -cartgeneric miner.A0
+\app\acme\acme -o miner.prg --vicelabels miner.lbl miner.asm
+AcmeLabelSorter miner.lbl miners.lbl
+call \app\WinVice-3.1-x64\xvic -pal miner.prg
