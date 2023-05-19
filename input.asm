@@ -156,3 +156,8 @@ player_input_try_jump
 player_input_done
     rts
 
+GetJumpIsPressed
+    jsr ScanJoystick
+    lda #0
+    sta jumpIsPressed
+	jmp player_input_try_jump

@@ -241,8 +241,8 @@ map4
 
 ; num guardians
     !byte 3
-    !byte 27,32,0,27,-1,YELLOW,0
-    !byte 8,64,8,27,1,BLACK,0
+    !byte 27,32,0,35,-1,YELLOW,0
+    !byte 8,64,8,35,1,BLACK,0
 	!byte 40,8,8,96,1,WHITE,GUARDIAN_EUGENE
 
 ; bg colour, player xy, belt speed

@@ -45,6 +45,21 @@ old_score
 
 DrawMap
 
+	jsr InitMusic
+
+	lda #8
+	sta 36879
+	lda #160
+	sta $9001
+	ldx #20
+-
+	jsr WaitForRaster
+	dex
+	bne -
+
+	lda #38
+	sta $9001
+
 	; for VIDEO recording!
 !if 0 {
 	lda old_score
@@ -393,13 +408,16 @@ DrawExit
 	sta (scr_ptr),y
 
     lda key_count
-    bne +
+    bne ++
 	lda kong_dead
-	beq +
+	beq ++
+	lda frame_ctr
+	and #7
+	bne +
 	lda exit_col
     eor #$07 ; flash exit
 	sta exit_col
-
++
 	; check for player hitting exit (only when flashing)
 	; 
 	ldx exitx
@@ -411,9 +429,9 @@ DrawExit
 	sbc px
 	clc
 	adc #2
-	bmi +
+	bmi ++
 	cmp #8
-	bcs +
+	bcs ++
 	ldx exity
 	inx
 	txa
@@ -422,13 +440,13 @@ DrawExit
 	asl
 	sec
 	sbc py
-	bmi +
+	bmi ++
 	cmp #15
-	bcs +
+	bcs ++
 	lda #1
 	sta hit_exit
 
-+
+++
     lda exit_col
     ldy #0
     sta (col_ptr),y

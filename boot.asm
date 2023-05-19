@@ -155,14 +155,14 @@ descend
 	jsr PrintString
 
 wait_for_jump_press1x
-    jsr player_input_try_jump
+    jsr GetJumpIsPressed
     bne wait_for_jump_press1x
 
 wait_for_jump_pressx
-    jsr player_input_try_jump
+    jsr GetJumpIsPressed
     beq wait_for_jump_pressx
 
 wait_for_jump_press2x
-    jsr player_input_try_jump
+    jsr GetJumpIsPressed
     bne wait_for_jump_press2x
     rts

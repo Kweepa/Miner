@@ -603,6 +603,11 @@ UpdateEugene
 	lda hy
 	cmp #112
 	beq ++
+	ldx hc
+	inx
+	txa
+	and #7
+	sta hc
 	inc hy
 	bne ++
 +

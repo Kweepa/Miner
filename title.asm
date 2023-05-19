@@ -121,8 +121,7 @@ TitleScreen
 	ora #$0e
     sta 36869
 
-    jsr player_input_try_jump
-	cmp #0
+    jsr GetJumpIsPressed
 	beq +
 	lda #1
 +
