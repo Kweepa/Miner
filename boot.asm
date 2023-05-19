@@ -165,4 +165,7 @@ wait_for_jump_pressx
 wait_for_jump_press2x
     jsr GetJumpIsPressed
     bne wait_for_jump_press2x
+
+	jsr UpdateHi
+
     rts

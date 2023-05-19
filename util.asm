@@ -150,8 +150,7 @@ Add100ToScore
 	sta score+2
 	cld
 
-	jsr DisplayScore
-	jmp UpdateHi
+	jmp DisplayScore
 
 Add10ToScore
 	sed
@@ -166,8 +165,7 @@ Add10ToScore
 	adc #0
 	sta score+2
 	cld
-	jsr DisplayScore
-	jmp UpdateHi
+	jmp DisplayScore
 
 DisplayScoreDigitPair
 	tay
@@ -208,21 +206,18 @@ DisplayHi
 	rts
 
 UpdateHi
-	rts ; todo-remove!
 	lda score+2
 	sec
 	sbc hi+2
-	beq ++
+	beq +
 	bcc do_update_hi
-
-++
++
 	lda score+1
 	sec
 	sbc hi+1
-	beq ++
+	beq +
 	bcs do_update_hi
-
-++
++
 	lda score
 	sec
 	sbc hi
