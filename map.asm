@@ -1,13 +1,15 @@
 ResetGame
-    lda #0
+    lda #0 ; VIDEO
     sta map
 
-	lda #0
+	lda #$00
 	sta score
+	lda #$00 ; VIDEO debug only
 	sta score+1
+	lda #$00 ; VIDEO debug only
 	sta score+2
 
-    lda #3
+    lda #3 ; VIDEO was 3
     sta men
 	rts
 
@@ -25,9 +27,34 @@ key_reset_loop
     sta crumble_ctr
 	sta up_down_ctr
 
+	; for VIDEO recording!
+!if 0 {
+	lda score
+	sta old_score
+	lda score+1
+	sta old_score+1
+	lda score+2
+	sta old_score+2
+}
 	rts
 
+!if 0 {
+old_score
+	!byte 0,0,0
+}
+
 DrawMap
+
+	; for VIDEO recording!
+!if 0 {
+	lda old_score
+	sta score
+	lda old_score+1
+	sta score+1
+	lda old_score+2
+	sta score+2
+}
+
     jsr ClearScreen
 
 	ldx #0
@@ -374,6 +401,7 @@ DrawExit
 	sta exit_col
 
 	; check for player hitting exit (only when flashing)
+	; 
 	ldx exitx
 	inx
 	txa
@@ -381,8 +409,10 @@ DrawExit
 	asl
 	sec
 	sbc px
+	clc
+	adc #2
 	bmi +
-	cmp #3
+	cmp #8
 	bcs +
 	ldx exity
 	inx

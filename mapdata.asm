@@ -109,8 +109,8 @@ map2
     !byte KEY,YELLOW,5
     !word 25,31,38,168,175
 
-    !byte STAL,PURPLE,3
-    !word 41,55,264
+    !byte STAL,PURPLE,4
+    !word 28,41,55,264
 
 	; BUSH
 
@@ -176,7 +176,7 @@ map3
     !word 176+512
 
 	; exit col, x, y
-	!byte BLUE,20,14
+	!byte BLUE,20,2
 
 	; exit graphic data
 	!byte 34,34,17,17,136,136,68,68
@@ -343,7 +343,7 @@ map6
 	!byte 3
 	!byte 40,16,40,83,1,CYAN,0
 	!byte 27,72,4,23,-1,PURPLE,0
-	!byte 48,112,48,83,1,YELLOW,0
+	!byte 48,112,40,83,1,YELLOW,0
 
 	; bg color, playerxy, belt speed
 	!byte 13,4,112,1

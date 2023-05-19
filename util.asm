@@ -208,6 +208,7 @@ DisplayHi
 	rts
 
 UpdateHi
+	rts ; todo-remove!
 	lda score+2
 	sec
 	sbc hi+2

@@ -135,6 +135,8 @@ TitleScreen
 	cmp #3
 	bne -
 
+	jsr InitMusic
+
 	rts
 
 title_jump_sequence

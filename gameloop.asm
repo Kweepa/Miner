@@ -42,7 +42,7 @@ main_loop
     beq +
 	jsr InitMusic
 	jsr DeathFlash
-	; inc men ; trainer
+	; inc men ; VIDEO trainer
 	nop
 	nop
     dec men
